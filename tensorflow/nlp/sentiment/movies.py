@@ -1,4 +1,4 @@
-import numpy
+import numpy as  numpy
 from keras.datasets import imdb
 from matplotlib import pyplot
 
@@ -7,24 +7,30 @@ from keras.layers import Dense
 from keras.layers import Flatten
 from keras.layers.embeddings import Embedding
 from keras.preprocessing import sequence
+np_load_old = numpy.load
 
+# modify the default parameters of np.load
+numpy.load = lambda *a,**k: np_load_old(*a, allow_pickle=True, **k)
+
+# call load_data with allow_pickle implicitly set to true
+#(train_data, train_labels), (test_data, test_labels) = imdb.load_data(num_words=10000
 # load the dataset
-(X_train, y_train), (X_test, y_test) = imdb.load_data()
+(X_train, y_train), (X_test, y_test) = imdb.load_data(num_words=10000)
 X = numpy.concatenate((X_train, X_test), axis=0)
 y = numpy.concatenate((y_train, y_test), axis=0)
 
-print(X[0])
-print(y[0])
+print("X[0]:",X[0])
+print("Y[0]:",y[0])
 
 # summarize size
-print("Training data: ")
-print(X.shape)
-print(y.shape)
+#print("Training data: ")
+print("X.shape:",X.shape)
+print("Y.shape:",y.shape)
 
 print("Classes: ")
-print(numpy.unique(y))
+#print(numpy.unique(y))
 print("Number of words: ")
-print(len(numpy.unique(numpy.hstack(X))))
+print("length:",len(numpy.unique(numpy.hstack(X))))
 
 # Summarize review length
 print("Review length: ")
